@@ -4,7 +4,7 @@ Welcome our Airflow ETL Pipeline project! This project demonstrates how to use A
 
 ## Features
 
-- **Data Integration**: Combine data from multiple sources.
+- **Data Integration**: Combine data from various sources.
 - **Data Cleaning**: Clean and preprocess data to ensure quality.
 - **Data Transformation**: Transform data to the desired format.
 - **Data Loading**: Load the processed data into a PostgreSQL database.
@@ -24,8 +24,10 @@ To clone the repository, run the following command:
 
 ```bash
 git clone https://github.com/taliff0001/cs_440_airflow_etl_pipeline_project.git
-cd cs_440_airflow_etl_pipeline_project
+cd your-repo-name
 ```
+
+Replace `your-repo-name` with the actual name of your repository.
 
 #### *Run the bash commands in* `docker_cleanup.md` *to remove all Docker containers, disconnected resources* *(volumes and networks), and images for a clean install (optional).*
 
@@ -37,11 +39,25 @@ cd cs_440_airflow_etl_pipeline_project
 export AIRFLOW_HOME=$(pwd)
 ```
 
+### Create the environment variable file
+
+### Create a .env file in the root directory of the project with the following content:
+
+```
+FERNET_KEY=your_fernet_key
+K_USER=your_kaggle_username
+K_KEY=your_kaggle_api_key
+POSTGRES_USER=airflow
+POSTGRES_PASSWORD=airflow
+SQL_ALCHEMY_DATABASE_URI=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+```
+
 ### Create the Airflow configuration file and initialize the metadata database
 
 ```bash
 docker-compose run airflow airflow db init
 ```
+
 
 ### Create an admin user
 
