@@ -1,0 +1,10 @@
+/data/*
+!/data/
+/logs/*
+!/logs/
+
+/.venv/*
+/.idea/*
+.DS_STORE
+.env
+

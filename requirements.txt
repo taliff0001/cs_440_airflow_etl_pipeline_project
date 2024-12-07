@@ -1,0 +1,7 @@
+pendulum
+pandas
+numpy
+SQLAlchemy~=1.4.54
+kaggle~=1.6.17
+reverse_geocoder
+apache-airflow~=2.6.3

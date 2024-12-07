@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - airflow_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 30s
+      retries: 5
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=${SQL_ALCHEMY_DATABASE_URI}
+      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - KAGGLE_USERNAME=${K_USER}
+      - KAGGLE_KEY=${K_KEY}
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
+      - ./data:/opt/airflow/logs
+    ports:
+      - "8080:8080"
+    command: webserver
+    restart: always
+    networks:
+      - airflow_network
+
+  airflow_scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      airflow:
+        condition: service_started
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=${SQL_ALCHEMY_DATABASE_URI}
+      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - KAGGLE_USERNAME=${K_USER}
+      - KAGGLE_KEY=${K_KEY}
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
+      - ./data:/opt/airflow/logs
+    command: scheduler
+    restart: always
+    networks:
+      - airflow_network
+
+volumes:
+  postgres_data:
+    external: false
+
+networks:
+  airflow_network:
