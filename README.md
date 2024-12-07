@@ -24,7 +24,7 @@ To clone the repository, run the following command:
 
 ```bash
 git clone https://github.com/taliff0001/cs_440_airflow_etl_pipeline_project.git
-cd your-repo-name
+cd cs_440_airflow_etl_pipeline_project
 ```
 
 #### *Run the bash commands in* `docker_cleanup.md` *to remove all Docker containers, disconnected resources* *(volumes and networks), and images for a clean install (optional).*
