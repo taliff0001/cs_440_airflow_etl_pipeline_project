@@ -23,7 +23,7 @@ Welcome to our Airflow ETL Pipeline project! This project demonstrates how to us
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/cs_440_airflow_etl_pipeline_project.git
+git clone https://github.com/taliff0001/cs_440_airflow_etl_pipeline_project.git
 ```
 
 ```bash
