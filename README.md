@@ -37,7 +37,7 @@ export AIRFLOW_HOME=$(pwd)
 
 ### Configure the `.env` File
 
-1. Create a `.env` file in the root directory of the project.
+1. Create a `.env` file in the root directory of the project
 2. Add your Kaggle API credentials to the `.env` file:
 
 ```env
@@ -57,6 +57,12 @@ Add the generated key to the `.env` file:
 
 ```env
 FERNET_KEY=your_generated_fernet_key
+```
+
+Create a new directory in the root of the project for data, and one for logs (They are defined in the YAML so airflow expects them to be there)
+
+```bash
+mkdir data && mkdir logs
 ```
 
 ### Initialize the Airflow Metadata Database
