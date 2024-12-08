@@ -116,7 +116,7 @@ Once the DAG has been successfully executed and data has been loaded into the Po
    docker ps
    ```
 
-   Look for the container with a name similar to `your_project_postgres`.
+   Look for the container with a name similar to `postgres` (hopefully it *is* `postgres` ).
 
 2. Access the PostgreSQL container:
    ```bash
