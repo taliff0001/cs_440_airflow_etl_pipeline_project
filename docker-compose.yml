@@ -1,67 +1,67 @@
 services:
-  postgres:
-    image: postgres:13
-    container_name: postgres
+  postgres:  # Define the PostgreSQL service
+    image: postgres:13  # Use the official PostgreSQL image, version 13
+    container_name: postgres  # Name the container "postgres"
     environment:
-      - POSTGRES_USER=airflow
-      - POSTGRES_PASSWORD=airflow
-      - POSTGRES_DB=airflow
+      - POSTGRES_USER=airflow  # Set the PostgreSQL user to "airflow"
+      - POSTGRES_PASSWORD=airflow  # Set the PostgreSQL password to "airflow"
+      - POSTGRES_DB=airflow  # Set the PostgreSQL database name to "airflow"
     ports:
-      - "5432:5432"
+      - "5432:5432"  # Expose port 5432 inside the container to port 5432 on the host machine
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data using a named volume
     networks:
-      - airflow_network
+      - airflow_network  # Connect this service to the "airflow_network"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U airflow"]
-      interval: 30s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U airflow"]  # Check if PostgreSQL is ready using the "pg_isready" command
+      interval: 30s  # Run the health check every 30 seconds
+      retries: 5  # Retry up to 5 times before considering the service unhealthy
 
-  airflow:
+  airflow:  # Define the Airflow webserver service
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .  # Use the current directory as the build context
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory to build the image
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
-      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - KAGGLE_USERNAME=${K_USER}
-      - KAGGLE_KEY=${K_KEY}
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor  # Set the executor type to "LocalExecutor"
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow  # Set the SQLAlchemy connection string for PostgreSQL
+      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}  # Set the Fernet key for Airflow (retrieved from environment variables)
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False  # Disable loading example DAGs
+      - KAGGLE_USERNAME=${K_USER}  # Set the Kaggle username (retrieved from environment variables)
+      - KAGGLE_KEY=${K_KEY}  # Set the Kaggle API key (retrieved from environment variables)
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./data:/opt/airflow/data
-      - ./data:/opt/airflow/logs
+      - ./dags:/opt/airflow/dags  # Mount the local "dags" directory to "/opt/airflow/dags" in the container
+      - ./data:/opt/airflow/data  # Mount the local "data" directory to "/opt/airflow/data" in the container
+      - ./logs:/opt/airflow/logs  # Mount the local "data" directory to "/opt/airflow/logs" in the container
     ports:
-      - "8080:8080"
-    command: webserver
-    restart: always
+      - "8080:8080"  # Expose port 8080 inside the container to port 8080 on the host machine
+    command: webserver  # Run the Airflow webserver
+    restart: always  # Always restart the container if it stops
     networks:
-      - airflow_network
+      - airflow_network  # Connect this service to the "airflow_network"
 
-  airflow_scheduler:
+  airflow_scheduler:  # Define the Airflow scheduler service
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .  # Use the current directory as the build context
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory to build the image
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
-      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - KAGGLE_USERNAME=${K_USER}
-      - KAGGLE_KEY=${K_KEY}
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor  # Set the executor type to "LocalExecutor"
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow  # Set the SQLAlchemy connection string for PostgreSQL
+      - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}  # Set the Fernet key for Airflow (retrieved from environment variables)
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False  # Disable loading example DAGs
+      - KAGGLE_USERNAME=${K_USER}  # Set the Kaggle username (retrieved from environment variables)
+      - KAGGLE_KEY=${K_KEY}  # Set the Kaggle API key (retrieved from environment variables)
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./data:/opt/airflow/data
-      - ./data:/opt/airflow/logs
-    command: scheduler
-    restart: always
+      - ./dags:/opt/airflow/dags  # Mount the local "dags" directory to "/opt/airflow/dags" in the container
+      - ./data:/opt/airflow/data  # Mount the local "data" directory to "/opt/airflow/data" in the container
+      - ./logs:/opt/airflow/logs  # Mount the local "data" directory to "/opt/airflow/logs" in the container
+    command: scheduler  # Run the Airflow scheduler
+    restart: always  # Always restart the container if it stops
     networks:
-      - airflow_network
+      - airflow_network  # Connect this service to the "airflow_network"
 
 volumes:
-  postgres_data:
-    external: false
+  postgres_data:  # Define a named volume for PostgreSQL data
+    external: false  # The volume is not externally managed
 
 networks:
-  airflow_network:
+  airflow_network:  # Define a custom network for the Airflow services
