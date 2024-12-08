@@ -27,8 +27,6 @@ git clone https://github.com/taliff0001/cs_440_airflow_etl_pipeline_project.git
 cd cs_440_airflow_etl_pipeline_project.git
 ```
 
-Replace `your-repo-name` with the actual name of your repository.
-
 #### *Run the bash commands in* `docker_cleanup.md` *to remove all Docker containers, disconnected resources* *(volumes and networks), and images for a clean install (optional).*
 
 ---
