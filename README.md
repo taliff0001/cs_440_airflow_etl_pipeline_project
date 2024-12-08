@@ -24,9 +24,11 @@ Welcome to our Airflow ETL Pipeline project! This project demonstrates how to us
 
 ```bash
 git clone https://github.com/cs_440_airflow_etl_pipeline_project.git
-cd cs_440_airflow_etl_pipeline_project
 ```
 
+```bash
+cd cs_440_airflow_etl_pipeline_project
+```
 ### Set the Airflow Home Directory
 
 ```bash
