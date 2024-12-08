@@ -23,8 +23,8 @@ Welcome to our Airflow ETL Pipeline project! This project demonstrates how to us
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/cs_440_airflow_etl_pipeline_project.git
+cd cs_440_airflow_etl_pipeline_project
 ```
 
 ### Set the Airflow Home Directory
@@ -81,7 +81,7 @@ docker-compose up -d
 
 ### Access the Airflow Web Interface
 
-Open a web browser and navigate to `http://localhost:8080`.
+Open a web browser and navigate to `http://localhost:8080` to access the web interface and run the DAG.
 
 - Username: `admin`
 - Password: `admin`
@@ -111,39 +111,23 @@ For a fresh start, you can remove all Docker containers, disconnected resources 
 
 Once the DAG has been successfully executed and data has been loaded into the PostgreSQL database, you can log into the PostgreSQL container to inspect the data.
 
-1. Find the PostgreSQL container's name:
+- Access the database:
    ```bash
-   docker ps
+   docker exec -it postgres psql -U airflow -d airflow
    ```
 
-   Look for the container with a name similar to `postgres` (hopefully it *is* `postgres` ).
-
-2. Access the PostgreSQL container:
-   ```bash
-   docker exec -it your_project_postgres bash
    ```
-
-3. Log into the PostgreSQL database:
-   ```bash
-   psql -U postgres
-   ```
-
-4. Switch to the appropriate database if needed:
+- Run SQL queries to inspect the data. For example:
    ```sql
-   \c your_database_name
+   SELECT * FROM merged_data LIMIT 10;
    ```
 
-5. Run SQL queries to inspect the data. For example:
-   ```sql
-   SELECT * FROM your_table_name LIMIT 10;
-   ```
-
-6. Exit the PostgreSQL shell:
+- Exit the PostgreSQL shell:
    ```sql
    \q
    ```
 
-7. Exit the container:
+- Exit the container:
    ```bash
    exit
    ```
