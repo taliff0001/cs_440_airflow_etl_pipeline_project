@@ -105,3 +105,48 @@ docker-compose down
 For a fresh start, you can remove all Docker containers, disconnected resources (volumes and networks), and images by running the bash commands in `docker_cleanup.md`.
 
 ---
+
+
+## Accessing the PostgreSQL Database
+
+Once the DAG has been successfully executed and data has been loaded into the PostgreSQL database, you can log into the PostgreSQL container to inspect the data.
+
+1. Find the PostgreSQL container's name:
+   ```bash
+   docker ps
+   ```
+
+   Look for the container with a name similar to `your_project_postgres`.
+
+2. Access the PostgreSQL container:
+   ```bash
+   docker exec -it your_project_postgres bash
+   ```
+
+3. Log into the PostgreSQL database:
+   ```bash
+   psql -U postgres
+   ```
+
+4. Switch to the appropriate database if needed:
+   ```sql
+   \c your_database_name
+   ```
+
+5. Run SQL queries to inspect the data. For example:
+   ```sql
+   SELECT * FROM your_table_name LIMIT 10;
+   ```
+
+6. Exit the PostgreSQL shell:
+   ```sql
+   \q
+   ```
+
+7. Exit the container:
+   ```bash
+   exit
+   ```
+
+---
+
