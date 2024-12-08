@@ -116,7 +116,6 @@ Once the DAG has been successfully executed and data has been loaded into the Po
    docker exec -it postgres psql -U airflow -d airflow
    ```
 
-   ```
 - Run SQL queries to inspect the data. For example:
    ```sql
    SELECT * FROM merged_data LIMIT 10;
