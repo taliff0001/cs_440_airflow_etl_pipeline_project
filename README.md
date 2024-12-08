@@ -1,6 +1,7 @@
+
 # Airflow ETL Pipeline
 
-Welcome our Airflow ETL Pipeline project! This project demonstrates how to use Apache Airflow to orchestrate and manage complex ETL (Extract, Transform, Load) workflows. The pipeline integrates two datasets from Kaggle, processes the data, and stores the results in a PostgreSQL database.
+Welcome to our Airflow ETL Pipeline project! This project demonstrates how to use Apache Airflow to orchestrate and manage complex ETL (Extract, Transform, Load) workflows. The pipeline integrates two datasets from Kaggle, processes the data, and stores the results in a PostgreSQL database.
 
 ## Features
 
@@ -15,81 +16,92 @@ Welcome our Airflow ETL Pipeline project! This project demonstrates how to use A
 - Docker
 - Docker Compose
 - Kaggle API credentials
+- Python (for generating the Fernet key)
 
 ## Setup Instructions
 
-### Clone the repository
-
-To clone the repository, run the following command:
+### Clone the Repository
 
 ```bash
-git clone https://github.com/taliff0001/cs_440_airflow_etl_pipeline_project.git
-cd cs_440_airflow_etl_pipeline_project.git
+git clone https://github.com/yourusername/your-repo-name.git
+cd your-repo-name
 ```
 
-#### *Run the bash commands in* `docker_cleanup.md` *to remove all Docker containers, disconnected resources* *(volumes and networks), and images for a clean install (optional).*
-
----
-
-### Set the Airflow home directory
+### Set the Airflow Home Directory
 
 ```bash
 export AIRFLOW_HOME=$(pwd)
 ```
 
-### Create the environment variable file
+### Configure the `.env` File
 
-### Create a .env file in the root directory of the project with the following content:
+1. Create a `.env` file in the root directory of the project.
+2. Add your Kaggle API credentials to the `.env` file:
 
-```
-FERNET_KEY=your_fernet_key
+```env
 K_USER=your_kaggle_username
-K_KEY=your_kaggle_api_key
-POSTGRES_USER=airflow
-POSTGRES_PASSWORD=airflow
-SQL_ALCHEMY_DATABASE_URI=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+K_KEY=your_kaggle_key
 ```
 
-### Create the Airflow configuration file and initialize the metadata database
+### Generate a Fernet Key for the `.env` File
+
+Airflow uses a Fernet key to encrypt sensitive data in its database (e.g., connection passwords). Generate a Fernet key as follows:
+
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+Add the generated key to the `.env` file:
+
+```env
+FERNET_KEY=your_generated_fernet_key
+```
+
+### Initialize the Airflow Metadata Database
+
+Run the following command to initialize the Airflow metadata database:
 
 ```bash
 docker-compose run airflow airflow db init
 ```
 
+### Create an Airflow Admin User
 
-### Create an admin user
+Create an admin user for accessing the Airflow web interface:
 
 ```bash
-docker-compose run airflow airflow users create \
-    --username admin \
-    --firstname Admin \
-    --lastname User \
-    --role Admin \
-    --email admin@example.com \
-    --password admin
+docker-compose run airflow airflow users create     --username admin     --firstname Admin     --lastname User     --role Admin     --email admin@example.com     --password admin
 ```
 
-### Start the Airflow services
+### Start the Airflow Services
 
 ```bash
 docker-compose up -d
 ```
 
-### Reset the Airflow services
-
-```bash
-docker-compose down && docker-compose up -d --remove-orphans
-```
-
-### Access the Airflow web interface to run the pipeline
+### Access the Airflow Web Interface
 
 Open a web browser and navigate to `http://localhost:8080`.
 
 - Username: `admin`
 - Password: `admin`
 
-### Stop the Airflow services
+### Reset the Airflow Services (Optional)
+
+If you encounter issues or need to reset the environment:
+
+```bash
+docker-compose down && docker-compose up -d --remove-orphans
+```
+
+### Stop the Airflow Services
 
 ```bash
 docker-compose down
 ```
+
+## Optional: Clean Up Docker Resources
+
+For a fresh start, you can remove all Docker containers, disconnected resources (volumes and networks), and images by running the bash commands in `docker_cleanup.md`.
+
+---
