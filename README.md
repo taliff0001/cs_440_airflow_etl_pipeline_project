@@ -3,6 +3,10 @@
 
 Welcome to our Airflow ETL Pipeline project! This project demonstrates how to use Apache Airflow to orchestrate and manage complex ETL (Extract, Transform, Load) workflows. The pipeline integrates two datasets from Kaggle, processes the data, and stores the results in a PostgreSQL database.
 
+## YouTube Demo
+
+Check out the demo of this project [here](https://www.youtube.com/watch?v=nFSXnFCr-gc).
+
 ## Features
 
 - **Data Integration**: Combine data from various sources.
